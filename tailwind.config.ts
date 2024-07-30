@@ -14,18 +14,18 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       container: {
-        center: true, // containerni markazga joylash
-        padding: '2rem', // containerning ichki bo'shliq miqdori
+        center: true,
+        padding: "2rem",
         screens: {
-          sm: '100%', // kichik ekranlarda 100% kenglik
-          md: '100%', // o'rta ekranlarda 100% kenglik
-          lg: '1024px', // katta ekranlarda 1024px kenglik
-          xl: '1280px', // juda katta ekranlarda 1280px kenglik
+          sm: "100%",
+          md: "100%",
+          lg: "1024px",
+          xl: "1280px",
         },
       },
     },
   },
   plugins: [],
-  
 };
 export default config;
+

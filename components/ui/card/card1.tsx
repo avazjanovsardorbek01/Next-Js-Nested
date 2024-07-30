@@ -5,24 +5,18 @@ import Imge2 from "../../../assets/icons/GroupCard2.svg";
 
 function Card() {
   return (
-    <>
-      <div className="flex flex-col gap-[15px] min-w-[400px]">
-        <Image
-          src={Imge1}
-          width={397}
-          height={237}
-          alt="Carusel img"
-          className=" rounded-lg"
-        />
-        <Image
-          src={Imge2}
-          width={397}
-          height={237}
-          alt="Carusel img"
-          className=" rounded-lg"
-        />
-      </div>
-    </>
+    <div className="flex flex-col gap-4 min-w-[300px] md:min-w-[400px]">
+      <Image
+        src={Imge1}
+        alt="Carusel img"
+        className="rounded-lg w-full h-auto"
+      />
+      <Image
+        src={Imge2}
+        alt="Carusel img"
+        className="rounded-lg w-full h-auto"
+      />
+    </div>
   );
 }
 

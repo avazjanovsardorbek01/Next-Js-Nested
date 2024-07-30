@@ -1,10 +1,12 @@
-
 @import "bootstrap-icons/font/bootstrap-icons.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* Swiper CSS */
-@import 'swiper/swiper-bundle.css';
+@import "swiper/swiper-bundle.css";
 
 
+body::-webkit-scrollbar{
+	width: 0;
+}
