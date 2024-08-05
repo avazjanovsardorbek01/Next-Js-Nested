@@ -2,7 +2,7 @@ import axios from "axios";
 import { getDataFromCookie, setDataFromCookie } from "@/helpers/cookie";
 
 const http = axios.create({
-  baseURL: "https://store.go-clothes.uz/v1/product/10",
+  baseURL: "https://store.go-clothes.uz/v1",
 });
 
 async function refreshAccessToken() {
@@ -35,9 +35,7 @@ http.interceptors.request.use((config) => {
 });
 
 http.interceptors.response.use(
-  (response) => {
-    return response;
-  },
+  (response) => response,
   async (error) => {
     const originalRequest = error.config;
     if (

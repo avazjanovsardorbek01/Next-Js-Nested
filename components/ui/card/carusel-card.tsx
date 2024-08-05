@@ -13,16 +13,20 @@ interface Props {
     text?: string;
     bg?: string;
   };
-  isliked: boolean;
+  isLiked: boolean;
 }
 
-function Index({ productData, cardUI, isliked }: Props) {
+const Index: React.FC<Props> = ({ productData, cardUI, isLiked }) => {
   const router = useRouter();
-  const [isLike, setIsLike] = useState(isliked);
+  const [isLike, setIsLike] = useState<boolean>(isLiked);
   const { create } = useWishlistStore();
 
+  useEffect(() => {
+    setIsLike(isLiked);
+  }, [isLiked]);
+
   const handleLike = async () => {
-    const res: any = await create(productData.product_id);
+    const res: any | boolean = await create(productData.product_id);
     setIsLike(res);
   };
 
@@ -30,6 +34,9 @@ function Index({ productData, cardUI, isliked }: Props) {
     setDataFromCookie("product_id", product_id);
     router.push(`/products/${product_id}`);
   };
+
+  const productImage =
+    productData.image_url?.[0] || "/path/to/default-image.jpg";
 
   return (
     <div className="group w-full sm:w-[292px] h-auto sm:h-[416px] rounded-md relative overflow-hidden bg-white cursor-pointer">
@@ -92,7 +99,7 @@ function Index({ productData, cardUI, isliked }: Props) {
         </button>
         <div className="mx-auto flex items-center justify-center overflow-hidden">
           <Image
-            src={productData.image_url[0]}
+            src={productImage}
             width={202}
             height={174}
             alt="Product Image"
@@ -123,6 +130,6 @@ function Index({ productData, cardUI, isliked }: Props) {
       </button>
     </div>
   );
-}
+};
 
 export default Index;

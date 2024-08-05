@@ -3,33 +3,51 @@ import { homeIcon, strelkaRightIcon } from "@/assets/icons/global";
 import { CaruselCard } from "@/components/ui/card";
 import { Slider, Spin } from "antd";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useProductStore from "@/store/products-store";
-import { CaruselProduct } from "@/components/ui";
 import useWishlistStore from "@/store/wishlist-store";
+import { CaruselProduct } from "@/components/ui";
 
 const Products = () => {
   const { data, getAll, isLoading, totalCount } = useProductStore();
   const { datawishlist, getAllWishlist } = useWishlistStore();
+  const [page, setPage] = useState(1);
+  const [filters, setFilters] = useState({
+    name: "",
+    category: "",
+    priceRange: [20, 50],
+    artikul: "",
+    new: "",
+    sale: "",
+  });
 
   useEffect(() => {
-    getAll({ page: 1, limit: 12, name: "" });
+    getAll({ page, limit: 12, ...filters });
     getAllWishlist({ page: 1, limit: 100 });
-  }, []);
+  }, [getAll, getAllWishlist, page, filters]);
 
-  const isProductLiked = (productId: string) => {
+  const isProductLiked = (productId) => {
     return datawishlist.some(
       (wishlistItem) => wishlistItem.product_id === productId
     );
   };
 
+  const handleLoadMore = () => {
+    setPage((prevPage) => prevPage + 1);
+  };
+
+  const handleFilterChange = (e) => {
+    const { name, value } = e.target;
+    setFilters((prevFilters) => ({ ...prevFilters, [name]: value }));
+  };
+
+  const handlePriceChange = (value) => {
+    setFilters((prevFilters) => ({ ...prevFilters, priceRange: value }));
+  };
+
   return (
     <div className="bg-[#F2F2F2] py-5">
       <div className="container">
-        <div className="flex gap-3 items-center text-gray-600 pb-5">
-          {homeIcon} <Link href={"/"}>Главная</Link> {strelkaRightIcon}
-          <Link href={"/products"}>Продукты</Link>
-        </div>
         <div className="flex gap-5 w-full">
           <div className="w-[20%]">
             <div className="bg-[#E4E4E4] rounded-lg w-[292px]">
@@ -43,11 +61,12 @@ const Products = () => {
                   <div className="w-[256px] h-[82px] bg-[#F2F2F2] rounded-md p-4">
                     <Slider
                       range={{ draggableTrack: true }}
-                      defaultValue={[20, 50]}
+                      value={filters.priceRange}
+                      onChange={handlePriceChange}
                     />
                     <div className="flex justify-between">
-                      <span>3 000 uzs</span>
-                      <span>40 000 uzs</span>
+                      <span>{filters.priceRange[0]} uzs</span>
+                      <span>{filters.priceRange[1]} uzs</span>
                     </div>
                   </div>
                 </div>
@@ -62,6 +81,9 @@ const Products = () => {
                   <input
                     type="text"
                     id="artikul"
+                    name="artikul"
+                    value={filters.artikul}
+                    onChange={handleFilterChange}
                     className="mt-1 block w-full rounded-md p-2.5 bg-[#F2F2F2] outline-none"
                     placeholder="аф566"
                   />
@@ -76,9 +98,15 @@ const Products = () => {
                   </label>
                   <select
                     id="category"
+                    name="category"
+                    value={filters.category}
+                    onChange={handleFilterChange}
                     className="mt-1 block w-full rounded-md p-2.5 bg-[#F2F2F2] outline-none"
                   >
-                    <option>Все</option>
+                    <option value="">Все</option>
+                    <option value="category1">Category 1</option>
+                    <option value="category2">Category 2</option>
+                    <option value="category3">Category 3</option>
                   </select>
                 </div>
 
@@ -91,9 +119,12 @@ const Products = () => {
                   </label>
                   <select
                     id="new"
+                    name="new"
+                    value={filters.new}
+                    onChange={handleFilterChange}
                     className="mt-1 block w-full rounded-md p-2.5 bg-[#F2F2F2] outline-none"
                   >
-                    <option>Все</option>
+                    <option value="">Все</option>
                   </select>
                 </div>
 
@@ -106,9 +137,12 @@ const Products = () => {
                   </label>
                   <select
                     id="sale"
+                    name="sale"
+                    value={filters.sale}
+                    onChange={handleFilterChange}
                     className="mt-1 block w-full rounded-md p-2.5 bg-[#F2F2F2] outline-none"
                   >
-                    <option>Все</option>
+                    <option value="">Все</option>
                   </select>
                 </div>
               </div>
@@ -124,18 +158,29 @@ const Products = () => {
             ) : totalCount > 0 ? (
               <div className="flex flex-col gap-5">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {data.map((item) => (
-                    <CaruselCard
-                      key={item.product_id}
-                      productData={item}
-                      cardUI={{ text: "", bg: "" }}
-                      isliked={isProductLiked(item.product_id)}
-                    />
-                  ))}
+                  {data.length > 0 ? (
+                    data.map((item) => (
+                      <CaruselCard
+                        key={item.product_id}
+                        productData={item}
+                        cardUI={{ text: "", bg: "" }}
+                        isliked={isProductLiked(item.product_id)}
+                      />
+                    ))
+                  ) : (
+                    <h1 className="text-center text-2xl text-gray-400 mt-20">
+                      No products found
+                    </h1>
+                  )}
                 </div>
-                <button className="w-full py-3 rounded-md bg-white">
-                  Показать ещё
-                </button>
+                {totalCount > data.length && (
+                  <button
+                    onClick={handleLoadMore}
+                    className="w-full py-3 rounded-md bg-white"
+                  >
+                    Показать ещё
+                  </button>
+                )}
               </div>
             ) : (
               <h1 className="text-center text-2xl text-gray-400 mt-20">
@@ -146,9 +191,39 @@ const Products = () => {
         </div>
 
         <div className="pt-[76px]">
-          <h1 className="text-[32px] mb-[31px]">Реконмендуемые продукты</h1>
-          <div>
-            <CaruselProduct text="Акция" bg="" />
+          <h1 className="text-[32px] mb-[31px]">Рекомендованные продукты</h1>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Static cards for recommended products */}
+            <CaruselCard
+              productData={{
+                product_id: "1",
+                name: "Product 1",
+                price: "1000 uzs",
+                imageUrl: "/path/to/image1.jpg",
+              }}
+              cardUI={{ text: "", bg: "" }}
+              isliked={false}
+            />
+            <CaruselCard
+              productData={{
+                product_id: "2",
+                name: "Product 2",
+                price: "2000 uzs",
+                imageUrl: "/path/to/image2.jpg",
+              }}
+              cardUI={{ text: "", bg: "" }}
+              isliked={false}
+            />
+            <CaruselCard
+              productData={{
+                product_id: "3",
+                name: "Product 3",
+                price: "3000 uzs",
+                imageUrl: "/path/to/image3.jpg",
+              }}
+              cardUI={{ text: "", bg: "" }}
+              isliked={false}
+            />
           </div>
         </div>
       </div>

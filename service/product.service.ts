@@ -8,7 +8,7 @@ export const getAll = async (data: GetAll) => {
     );
     return response.data.products;
   } catch (error) {
-    console.error("Prdoucts get error:", error);
+    console.error("Products get error:", error);
     throw error;
   }
 };
