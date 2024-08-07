@@ -6,6 +6,7 @@ import { Product } from "@/types/product-types";
 import useWishlistStore from "@/store/wishlist-store";
 import { getDataFromCookie, setDataFromCookie } from "@/helpers/cookie";
 import { eyeIcon } from "@/assets/icons/global";
+import Link from "next/link";
 
 interface Props {
   productData: Product;
@@ -118,16 +119,12 @@ const Index: React.FC<Props> = ({ productData, cardUI, isLiked }) => {
           750 000
         </del>
       </div>
-      <button
-        className="flex w-full items-center justify-center gap-3 py-[15px] bg-[#FBD029] rounded-br-md rounded-bl-md absolute bottom-0"
-        onClick={(e) => {
-          e.stopPropagation();
-          viewSingleProduct(productData.product_id);
-        }}
-      >
-        <i className="bi bi-cart3"></i>
-        Корзина
-      </button>
+      <Link href="/cart">
+        <button className="flex w-full items-center justify-center gap-3 py-[15px] bg-[#FBD029] rounded-br-md rounded-bl-md absolute bottom-0">
+          <i className="bi bi-cart3"></i>
+          Корзина
+        </button>
+      </Link>
     </div>
   );
 };

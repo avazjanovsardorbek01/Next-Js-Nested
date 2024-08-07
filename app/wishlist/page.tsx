@@ -11,17 +11,16 @@ const WishlistPage = () => {
   }, []);
 
   return (
-    <div>
-      
-      <div className="flex gap-3 flex-wrap container">
-      {datawishlist.map((item) => (
-        <CaruselCard
-        key={item.product_id}
-        productData={item}
-        cardUI={{ text: "", bg: "" }}
-        isliked={true}
-        />
-      ))}
+    <div className="bg-[#f2f2f2]">
+      <div className="flex gap-3 flex-wrap container mb-4">
+        {datawishlist.map((item) => (
+          <CaruselCard
+            key={item.product_id}
+            productData={item}
+            cardUI={{ text: "", bg: "" }}
+            isliked={true}
+          />
+        ))}
       </div>
     </div>
   );
