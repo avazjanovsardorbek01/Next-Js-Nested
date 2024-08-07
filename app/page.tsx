@@ -6,6 +6,7 @@ import { Carusel, CaruselCatalog, CaruselProduct } from "@/components/ui";
 import { Card1 } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
+import ProductCard from "@/components/product-cards/index";
 
 export default function Home() {
   return (
@@ -50,7 +51,7 @@ export default function Home() {
           <div className="pt-[76px]">
             <h1 className="text-2xl lg:text-[32px] mb-[31px]">Продукты</h1>
             <div>
-              <CaruselProduct />
+              <ProductCard />
             </div>
           </div>
           <div className="pt-[76px]">

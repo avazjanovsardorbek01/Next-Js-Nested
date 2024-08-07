@@ -6,7 +6,9 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import useProductStore from "@/store/products-store";
 import useWishlistStore from "@/store/wishlist-store";
-import { CaruselProduct } from "@/components/ui";
+import Skokalka from "@/assets/images/skokalka.png";
+import Shtanga from "@/assets/images/штанга.png";
+import Ganteli from "@/assets/images/ganteli.png";
 
 const Products = () => {
   const { data, getAll, isLoading, totalCount } = useProductStore();
@@ -192,14 +194,24 @@ const Products = () => {
 
         <div className="pt-[76px]">
           <h1 className="text-[32px] mb-[31px]">Рекомендованные продукты</h1>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 ">
             {/* Static cards for recommended products */}
             <CaruselCard
               productData={{
                 product_id: "1",
-                name: "Product 1",
+                product_name: "Бутса Nike Mercurial Superfly 8 FG",
                 price: "1000 uzs",
-                imageUrl: "/path/to/image1.jpg",
+                image_url: [Skokalka],
+              }}
+              cardUI={{ text: "", bg: "" }}
+              isliked={false}
+            />
+            <CaruselCard
+              productData={{
+                product_id: "1",
+                product_name: "Бутса Nike Mercurial Superfly 8 FG",
+                price: "1000 uzs",
+                image_url: [Ganteli],
               }}
               cardUI={{ text: "", bg: "" }}
               isliked={false}
@@ -207,9 +219,9 @@ const Products = () => {
             <CaruselCard
               productData={{
                 product_id: "2",
-                name: "Product 2",
+                product_name: "Бутса Nike Mercurial Superfly 8 FG",
                 price: "2000 uzs",
-                imageUrl: "/path/to/image2.jpg",
+                image_url: [Shtanga],
               }}
               cardUI={{ text: "", bg: "" }}
               isliked={false}
@@ -217,9 +229,9 @@ const Products = () => {
             <CaruselCard
               productData={{
                 product_id: "3",
-                name: "Product 3",
-                price: "3000 uzs",
-                imageUrl: "/path/to/image3.jpg",
+                product_name: "Бутса Nike Mercurial Superfly 8 FG",
+                price: "250 000 uzs",
+                image_url: [Skokalka],
               }}
               cardUI={{ text: "", bg: "" }}
               isliked={false}
